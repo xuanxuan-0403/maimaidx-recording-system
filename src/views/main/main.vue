@@ -7,7 +7,6 @@
             </div>
             <div class="btns">
                 <button class="login" @click="handleLoginBtn">登录</button>
-                <button class="sign-in" @click="handleSignInClick">注册</button>
             </div>
         </article>
         <div
@@ -33,7 +32,7 @@
         </div>
         <Transition name="loginBox">
             <div class="login-box" v-if="loginBoxIsShow">
-                <h2>登录</h2>
+                <h2>请输入查分器账号密码</h2>
                 <h2><input type="text" placeholder="账号" /></h2>
                 <h2><input type="password" placeholder="密码" /></h2>
                 <img src="../../assets/images/chara_01.png" alt="" @click="handleLogin" />
@@ -46,6 +45,7 @@
 import { defineComponent, ref } from 'vue';
 import OBSWebSocket from 'obs-websocket-js';
 import { rootIp } from '@/service/api/index';
+import { getDivingPlayerRequest } from '@/service/main';
 
 const obs = new OBSWebSocket();
 
@@ -76,15 +76,15 @@ export default defineComponent({
             // obs.call('StartRecord').then((res) => {
             //     console.log('开始录制:', res);
             // });
+            const data = getDivingPlayerRequest('TCPL');
+            console.log(data);
         };
-        const handleSignInClick = () => {};
         return {
             containerRef,
             loginBtnRef,
             signInBtnRef,
             loginBoxIsShow,
             handleLoginBtn,
-            handleSignInClick,
             handleLogin,
         };
     },
@@ -130,7 +130,7 @@ export default defineComponent({
             flex-direction: column;
             width: 100%;
             height: 30%;
-            padding: 2.5% 10% 7%;
+            padding: 2.5% 18% 7%;
             justify-content: space-between;
             align-items: center;
 
@@ -181,12 +181,12 @@ export default defineComponent({
 
         h2 {
             display: flex;
-            color: #fff;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 14px;
             text-align: center;
             margin: 3% 5%;
             justify-content: center;
+            font-weight: lighter;
             height: 35px;
             line-height: 30px;
             background: url(../../assets/images/line_01.png) no-repeat 0 bottom / 100%;
