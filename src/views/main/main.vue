@@ -32,9 +32,9 @@
         </div>
         <Transition name="loginBox">
             <div class="login-box" v-if="loginBoxIsShow">
-                <h2>请输入查分器账号密码</h2>
-                <h2><input type="text" placeholder="账号" /></h2>
-                <h2><input type="password" placeholder="密码" /></h2>
+                <h2>请输入查分器账号密码，及机厅IP</h2>
+                <h2><input type="text" placeholder="查分器账号" v-model="username" /></h2>
+                <h2><input type="text" placeholder="机厅IP" v-model="userIP" /></h2>
                 <img src="../../assets/images/chara_01.png" alt="" @click="handleLogin" />
             </div>
         </Transition>
@@ -46,8 +46,10 @@ import { defineComponent, ref } from 'vue';
 import OBSWebSocket from 'obs-websocket-js';
 import { rootIp } from '@/service/api/index';
 import { getDivingPlayerRequest } from '@/service/main';
+import { useRootStore } from '@/store/index';
 
 const obs = new OBSWebSocket();
+const main = useRootStore().main;
 
 export default defineComponent({
     setup() {
@@ -56,11 +58,16 @@ export default defineComponent({
         const signInBtnRef = ref<HTMLElement>();
         const loginBoxIsShow = ref(false);
 
+        const username = ref<string>();
+        const userIP = ref<string>();
+
         const handleLoginBtn = () => {
             containerRef.value!.style.transform = 'translateY(-60%)';
             loginBoxIsShow.value = true;
-            //
-            // obs.connect(`ws://${rootIp}:4455`, 'xyx316516')
+        };
+
+        const handleLogin = async () => {
+            // obs.connect(`ws://${userIP.value}:4455`, 'xyx316516')
             //     .then((res) => {
             //         console.log('obs 链接成功!', res);
             //     })
@@ -70,16 +77,21 @@ export default defineComponent({
             // setTimeout(() => {
             //     obs.disconnect();
             // }, 20000);
-        };
-        const handleLogin = () => {
-            // console.log(1);
             // obs.call('StartRecord').then((res) => {
             //     console.log('开始录制:', res);
             // });
-            const data = getDivingPlayerRequest('TCPL');
-            console.log(data);
+            //
+            if (username && userIP) {
+                const data = await getDivingPlayerRequest(username.value!);
+                console.log(data.data);
+                main.data = data.data;
+                main.username = username.value!;
+                main.userIP = userIP.value!;
+            }
         };
         return {
+            username,
+            userIP,
             containerRef,
             loginBtnRef,
             signInBtnRef,
@@ -111,7 +123,7 @@ export default defineComponent({
         transform: translateY();
         .logo {
             position: relative;
-            width: 90%;
+            width: 100%;
             img {
                 width: 100%;
             }
@@ -130,7 +142,7 @@ export default defineComponent({
             flex-direction: column;
             width: 100%;
             height: 30%;
-            padding: 2.5% 18% 7%;
+            padding: 2.5% 14% 7%;
             justify-content: space-between;
             align-items: center;
 
