@@ -1,0 +1,65 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+#       name = hanya
+#       email = hanya@MacBook-Pro
+
+[merge]
+    summary = true
+    tool = vimdiff
+[diff]
+    renames = copy
+[color]
+    diff = auto
+    status = true
+    branch = auto
+    interactive = auto
+    ui = auto
+    log = true
+[status]
+    submodulesummary = -1
+[mergetool "vimdiff"]
+    cmd = "vim --noplugin \"$PWD/$MERGED\" \
+          +\":split $PWD/$REMOTE\" +\":set buftype=nowrite\" \
+          +\":vertical diffsplit $PWD/$LOCAL\" +\":set buftype=nowrite\" \
+          +\":vertical diffsplit $PWD/$BASE\" +\":set buftype=nowrite\" \
+          +\":wincmd l\""
+[format]
+    numbered = auto
+[alias]
+    co = checkout
+    ci = commit
+    st = status
+    pl = pull
+    ps = push
+    dt = difftool
+    l = log --stat
+    cp = cherry-pick
+    ca = commit -a
+    b = branch
+    pso = push origin
+    plo = pull origin
+    cm = commit -m
+    gst = git status
+    gd = git diff
+    gl = git pull
+    gp = git push
+    glo = git pull origin
+    gpo = git push origin
+    gcm = git common -m
+    gc = git checkout
+    gcm = git checkout master
+    gcd = git checkout develop
+    gb = git branch
+    ga = git add .
+[user]
+        name = hanya
+        email = hanya-mac@xiaomi.com
+[core]
+        excludesfile = /Users/hanya/.gitignore_global
+[difftool "sourcetree"]
+        cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+        path =
+[mergetool "sourcetree"]
+        cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+        trustExitCode = true
