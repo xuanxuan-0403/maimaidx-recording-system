@@ -2,8 +2,23 @@
     <div class="app">
         <router-view></router-view>
         <button class="setting"></button>
+        <Audio />
     </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import Audio from '@/views/audio/audio.vue';
+
+export default defineComponent({
+    components: {
+        Audio,
+    },
+    setup() {
+        return {};
+    },
+});
+</script>
 
 <style scoped lang="less">
 .app {
