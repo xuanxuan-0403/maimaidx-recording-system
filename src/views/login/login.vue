@@ -46,8 +46,9 @@
 import { defineComponent, ref } from 'vue';
 import { getDivingPlayerRequest } from '@/service/login';
 import { useRootStore } from '@/store/index';
-import { obsConnect } from '@/utils/obs-websocket';
 import { validateIPAddress } from '@/utils/verifyIP';
+import LocalCache from '@/utils/cache';
+import router from '@/router';
 
 const login = useRootStore().login;
 
@@ -59,6 +60,8 @@ export default defineComponent({
         const loginBoxIsShow = ref(false);
         const videoRef = ref<HTMLVideoElement>();
         const imgRef = ref<HTMLImageElement>();
+        const username = ref<string>();
+        const userIP = ref<string>();
 
         function transImg() {
             let imgNumber = 0;
@@ -73,8 +76,12 @@ export default defineComponent({
             }, 40);
         }
 
-        const username = ref<string>();
-        const userIP = ref<string>();
+        !LocalCache.getCache('username')
+            ? LocalCache.setCache('username', username.value!)
+            : (username.value = LocalCache.getCache('username'));
+        !LocalCache.getCache('userIP')
+            ? LocalCache.setCache('userIP', userIP.value!)
+            : (userIP.value = LocalCache.getCache('userIP'));
 
         const handleLoginBtn = () => {
             containerRef.value!.style.transform = 'translateY(-45%)';
@@ -88,6 +95,7 @@ export default defineComponent({
                 login.data = data.data;
                 login.username = username.value!;
                 login.userIP = userIP.value!;
+
                 const res = validateIPAddress(userIP.value!);
                 // obsConnect(userIP.value!, 'xyx316516').then((res) => {
                 //     console.log(res);
@@ -95,12 +103,13 @@ export default defineComponent({
                 if (res) {
                     imgRef.value!.style.display = 'block';
                     transImg();
-                    // setTimeout(() => {
-                    //     router.push('/main');
-                    // }, 1000);
+                    setTimeout(() => {
+                        router.push('/main');
+                    }, 2000);
                 }
             }
         };
+
         return {
             username,
             userIP,
