@@ -73,7 +73,7 @@ export default defineComponent({
                 } else {
                     clearInterval(time);
                 }
-            }, 40);
+            }, 34);
         }
 
         !LocalCache.getCache('username')
@@ -95,6 +95,8 @@ export default defineComponent({
                 login.data = data.data;
                 login.username = username.value!;
                 login.userIP = userIP.value!;
+                LocalCache.setCache('username', username.value!);
+                LocalCache.setCache('userIP', userIP.value!);
 
                 const res = validateIPAddress(userIP.value!);
                 // obsConnect(userIP.value!, 'xyx316516').then((res) => {
