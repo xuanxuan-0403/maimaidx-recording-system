@@ -1,16 +1,29 @@
 <template>
     <div class="main">
-        <header class="header"></header>
-        <article class="center"></article>
+        <header class="header">
+            <h1 class="nickname">{{ nickname }}</h1>
+            <h2 class="rating">{{ rating }}</h2>
+        </header>
+        <article class="center">
+            <p class="text">点击开始录制</p>
+        </article>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+import LocalCache from '@/utils/cache';
+import { useRootStore } from '@/store/index';
+const login = useRootStore().login;
 
 export default defineComponent({
     setup() {
-        return {};
+        const nickname = ref<string>(login.data.nickname);
+        const rating = ref<number>(login.data.rating);
+        return {
+            nickname,
+            rating,
+        };
     },
 });
 </script>
@@ -23,19 +36,21 @@ export default defineComponent({
     align-items: center;
     width: 100vw;
     height: 100vh;
-    background: url(../../assets/images/UI_TTR_BG_Base_Plus.png) no-repeat 0 center / 430%;
+    background: url('../../assets/images/main-bgc.png') no-repeat 0 center / 120%;
 
     .header {
-        margin-top: 20%;
+        margin-top: 5%;
         width: 90%;
         height: 30%;
-        background: url(../../assets/images/UI_UPE_OsasoiBoard_Base.png) no-repeat 0 center / 100%;
+        // background: #f00;
     }
 
     .center {
-        width: 85vw;
-        height: 85vw;
-        background: url(../../assets/images/kuang.png) no-repeat center center / 100%;
+        width: 65vw;
+        height: 65vw;
+        background: url('../../assets/images/btn.png') no-repeat center center / 100%;
+        p {
+        }
     }
 }
 </style>

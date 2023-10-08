@@ -47,6 +47,7 @@ import { defineComponent, ref } from 'vue';
 import { getDivingPlayerRequest } from '@/service/login';
 import { useRootStore } from '@/store/index';
 import { validateIPAddress } from '@/utils/verifyIP';
+import { obsConnect } from '@/utils/obs-websocket';
 import LocalCache from '@/utils/cache';
 import router from '@/router';
 
@@ -99,9 +100,9 @@ export default defineComponent({
                 LocalCache.setCache('userIP', userIP.value!);
 
                 const res = validateIPAddress(userIP.value!);
-                // obsConnect(userIP.value!, 'xyx316516').then((res) => {
-                //     console.log(res);
-                // });
+                obsConnect(userIP.value!, 'xyx316516').then((res: any) => {
+                    console.log(res);
+                });
                 if (res) {
                     imgRef.value!.style.display = 'block';
                     transImg();
