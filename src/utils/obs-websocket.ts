@@ -1,6 +1,6 @@
 import OBSWebSocket from 'obs-websocket-js';
 
-const obs = new OBSWebSocket();
+export const obs = new OBSWebSocket();
 
 export function obsConnect(ip: string, password: string) {
     return new Promise((resolve, reject) => {
